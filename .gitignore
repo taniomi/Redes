@@ -1,0 +1,5 @@
+# pycache folders
+__pycache__
+
+# server_data folders (created when server receives data)
+server_data
