@@ -12,8 +12,13 @@ def handle_http_request(client_socket):
 
     # HOME PAGE
     if method == 'GET' and path == '/':
-        response = 'HTTP/1.1 200 OK\nContent-Type: text/html\n\nHello, this is the home page!'
-        client_socket.send(response.encode('utf-8'))
+        html_path = os.path.join('html/home.html')
+        with open(html_path, 'rb') as html_home:
+            html_data = html_home.read()
+        content_type = 'text/html'
+        
+        response = f'HTTP/1.1 200 OK\nContent-Type: {content_type}\n\n'.encode('utf-8') + html_data
+        client_socket.send(response)
 
     # SERVE IMAGE
     elif method == 'GET' and path.startswith('/images/'):
