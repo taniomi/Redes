@@ -1,5 +1,5 @@
 # Trabalho com conexão TCP - Parte 2.
-### HTTP/TCP - Servidor Web Multithreads
+HTTP/TCP - Servidor Web Multithreads
 
 ## O Protocolo de Controle de Transmissão - TCP
 
@@ -95,3 +95,14 @@ Neste trabalho iremos continuar explorando a implementação de uma aplicação 
 
 > [!NOTE]
 > Para agilizar a verificação de integridade são utilizadas somas de verificação (checksums) ou resumos criptográficos como o MD5 e SHA.
+
+---
+
+### Implementação
+
+Foram implementadas as seguintes funcionalidades:
+- Home page
+- Multithreading para atender vários clientes
+- Apresenta imagens
+- Apresenta HTML
+- Página de erro 404 quando imagem, HTML ou URL não encontrado
