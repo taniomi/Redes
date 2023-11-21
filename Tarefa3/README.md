@@ -35,3 +35,5 @@ Neste trabalho iremos explorar a implementação de uma aplicação rodando sobr
             
 > [! IMPORTANT]
 > Para agilizar a verificação de integridade são utilizadas somas de verificação (checksums) ou resumos criptográficos como o MD5 e SHA.
+
+![UDP server and clients exchange messages](https://pythontic.com/udp-client-server-overview.png)
