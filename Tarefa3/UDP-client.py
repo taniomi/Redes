@@ -1,12 +1,25 @@
 import socket
 
-UDP_IP = "127.0.0.1"
-UDP_PORT = 5005
+def run_client():
+    server_ip = '127.0.0.1'
+    port = 5005
 
-sock = socket.socket(socket.AF_INET, # Internet
-                     socket.SOCK_DGRAM) # UDP
-sock.bind((UDP_IP, UDP_PORT))
+    client = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 
-while True:
-    data, addr = sock.recvfrom(1024) # buffer size is 1024 bytes
-    print(f'[SERVER] says: {data}')
+    try:
+        while True:
+            message = input("[SEND] Enter message to send (or 'exit' to quit): ")
+            
+            if message.lower() == 'exit':
+                break
+            
+            client.sendto(message.encode('utf-8'), (server_ip, port))
+            
+    except Exception as e:
+        print(f'[ERROR] Error: {e}')
+
+    finally:
+        client.close()
+
+if __name__ == '__main__':
+    run_client()
