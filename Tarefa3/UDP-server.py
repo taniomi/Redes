@@ -1,29 +1,32 @@
 import socket
 import hashlib
 
-def send_file(server, filename, packet_size, client_address):
+def send_file(server, path, packet_size, client_address):
     try:
-        with open(filename, 'rb') as file:
+        with open(path, 'rb') as file:
             data = file.read(packet_size)
             while data:
-                client_socket.sendto(data, client_address)
+                server.sendto(data, client_address)
                 data = file.read(packet_size)
     except FileNotFoundError:
-        print(f'[ERROR] ¯\_(ツ)_/¯ File not found: {filename}')
+        print(f'[ERROR] ¯\_(ツ)_/¯ File not found: {path}')
 
 
 
 def handle_request(server, request, client_address, packet_size):
-    # Get requested filename from request
-    filename = request.split()[1]
+    # Get requested path from request
+    method, path = request.split()[:2]
 
-    # Send file to client
-    send_file(server, filename, packet_size, client_address)
+    if method == 'FILE':
+        send_file(server, path, packet_size, client_address)
 
-    # Compute a hash of the data
-    hashed_data = hashlib.sha256(data).hexdigest()
-    print(f'[HASH] Hash of received data: {hashed_data}')
-
+        with open(path, 'rb') as file:
+            # Compute a hash of the data
+            hashed_data = hashlib.sha256(file.read()).hexdigest()
+        print(f'[HASH] Hash of sent file: {hashed_data}')
+    
+    else:
+        pass
 
 
 def run_server():
@@ -40,21 +43,20 @@ def run_server():
         try:
             while True:
                 data, client_address = server.recvfrom(packet_size)
-                request = data.decode(format)
-                print(f'[RECEIVE] Received data from {client_address[0]}:{client_address[1]}: \n{request}')
+                data = data.decode(format)
+                print(f'[RECEIVE] Received data from {client_address[0]}:{client_address[1]}: \n    {data}')
 
                 # Process the received data
-                handle_request(server, request, client_address, packet_size)
+                handle_request(server, data, client_address, packet_size)
 
         except KeyboardInterrupt:
             print('[SHUTDOWN] Server is shutting down.')
-            server.close()
 
         except Exception as e:
             print(f'[ERROR] Error: {e}')
 
-        # finally:
-            # server.close()
+        finally:
+            server.close()
 
 
 
